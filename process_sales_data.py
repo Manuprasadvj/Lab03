@@ -101,7 +101,7 @@ def process_sales_data(sales_csv_path, orders_dir_path):
         worksheet_name = f'Order #{order_id}'
         order_df.to_excel(order_excel_path, index=False, sheet_name=worksheet_name)
 
-        break
+       
         # TODO: Format the Excel sheet
         # TODO: Define format for the money columns
         # TODO: Format each colunm
