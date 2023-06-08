@@ -95,6 +95,7 @@ def process_sales_data(sales_csv_path, orders_dir_path):
         customer_name = re.sub(r'\w', '', customer_name)
         order_file = f'Order{order_id}_{customer_name}.xlsx'
         order_excel_path = os.path.join(orders_dir_path, order_file)
+       
         #  Export the data to an Excel sheet
         worksheet_name = f'Order #{order_id}'
         #order_df.to_excel(order_excel_path, index=False, sheet_name=worksheet_name)
@@ -102,32 +103,22 @@ def process_sales_data(sales_csv_path, orders_dir_path):
  # Format the Excel sheet
 
         writer = pd.ExcelWriter("order_file.xlsx", engine="xlsxwriter")
-        df.to_excel(writer, sheet_name="worksheet_name")
+        order_df.to_excel(writer, index = False, sheet_name=worksheet_name)
 
         workbook = writer.book
-        worksheet = writer.sheets["worksheet_name"]
+        worksheet = writer.sheets[worksheet_name]
 
  #  Define format for the money columns
-    format1 = workbook.add_format({"num_format": "#/#/####"})
-    format2 = workbook.add_format({"num_format": "#"})
-    format3 = workbook.add_format({"num_format": "xxxxxxxx xxxx"})
-    format4 = workbook.add_format({"num_format":"X##_####"})
-    format5 = workbook.add_format({"num_format":"##"})
-    format6 = workbook.add_format({"num_format":"$#,###"})
-    format7 = workbook.add_format({"num_format":"$#,###.00"})
-    format8 = workbook.add_format({"num_format":"Xxxxxxx"})
-    format9 = workbook.add_format({"num_format":"Xxxxxx xxxxxxx xxxxxxxx Xx"})
+    Money_Format = workbook.add_format({"num_format" : "$#,##0.00"})
+   
 
  #  Format each colunm
-    worksheet.set_column(1, 1, 11, format1)
-    worksheet.set_column(2, 2, 13, format2)
-    worksheet.set_column(3, 3, 15, format4)
-    worksheet.set_column(4, 4, 15, format5)
-    worksheet.set_column(5, 5, 15, format6)
-    worksheet.set_column(6, 6, 13, format6)
-    worksheet.set_column(7, 7, 13, format7)
-    worksheet.set_column(8, 8, 10, format8)
-    worksheet.set_column(9, 9, 30, format9)
+    worksheet.set_column(0, 0, 11)
+    worksheet.set_column(1, 1, 13)
+    worksheet.set_column(2, 4, 15)
+    worksheet.set_column('F:G', 13, Money_Format)
+    worksheet.set_column('H:H', 10)
+    worksheet.set_column('I:I', 30)
 
  #  Close the Excelwriter
 
